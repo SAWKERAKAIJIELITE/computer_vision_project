@@ -1,22 +1,26 @@
-import numpy as np 
-# import cv2
+from typing import Any
+import numpy as np
 
-def get_game_height_ratio(cropped_game):
+
+def get_game_height_ratio(cropped_game: np.ndarray[Any, np.dtype[np.integer[Any] | np.floating[Any]]]) -> float:
     # Crop the game area
-    orginal_game_height , orginal_game_width = (885, 674)
-    game_height , game_width = cropped_game.shape[0:2]
-    game_height_ratio = game_height / orginal_game_height
+    original_game_height, original_game_width = (885, 674)
+    game_height, game_width = cropped_game.shape[0:2]
+    game_height_ratio = game_height / original_game_height
 
     return game_height_ratio
 
-# def get_img_slice(image,h , slice_number=0,ratio = 1,min=190,max=290) :
-#     min *= ratio
-#     max *= ratio
-#     offset = slice_number * 100 * ratio
-#     return image[int(h - (max + offset)) : int(h - (min + offset))]
+def get_img_slice(
+    image: np.ndarray[Any, np.dtype[np.integer[Any] | np.floating[Any]]],
+    h: int,
+    slice_number: int = 0,
+    ratio: float = 1.0,
+    my_min: int = 180,
+    my_max: int = 280
+) -> np.ndarray[Any, np.dtype[np.integer[Any] | np.floating[Any]]]:
+    my_min *= ratio
+    my_max *= ratio
 
-def get_img_slice(image,h , slice_number=0,ratio = 1,min=180,max=280) :
-    min *= ratio
-    max *= ratio
     offset = slice_number * 100 * ratio
-    return image[int(h - (max + offset)) : int(h - (min + offset))]
+
+    return image[int(h - (my_max + offset)): int(h - (my_min + offset))]
